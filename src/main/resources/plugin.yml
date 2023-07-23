@@ -1,0 +1,4 @@
+name: Ghostcore
+version: '${project.version}'
+main: me.squid.ghostcore
+api-version: 1.20
