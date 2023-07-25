@@ -1,4 +1,9 @@
 name: Ghostcore
 version: '${project.version}'
-main: me.squid.ghostcore
+main: me.squid.Ghostcore
 api-version: 1.20
+
+commands:
+  resetplayer:
+    usage: /resetplayer <player name>
+    permission: admin
