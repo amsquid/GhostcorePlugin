@@ -34,6 +34,9 @@ public class ResetPlayer implements CommandExecutor {
         // Clearing inventory
         playerToReset.getInventory().clear();
 
+        // Setting player to not a ghost anymore
+        Ghostcore.setGhost(playerToReset, false, false, true);
+
         // Teleporting the player to the holding area
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mvtp " + playerToReset.getName() + " world");
 

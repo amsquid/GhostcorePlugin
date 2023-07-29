@@ -3,10 +3,14 @@ package me.squid;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.io.IOException;
@@ -65,6 +69,15 @@ public class Events implements Listener {
             } else {
                 player.sendMessage("You are not a ghost");
             }
+        }
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e) {
+        Player player = e.getPlayer();
+
+        if(player.getGameMode() != GameMode.CREATIVE) {
+            Ghostcore.setGhost(player, true, true, true);
         }
     }
 
