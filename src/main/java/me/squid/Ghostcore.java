@@ -8,6 +8,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
 
@@ -42,22 +44,18 @@ public final class Ghostcore extends JavaPlugin {
     }
 
     // Utility Methods
-    public static void totallyHidePlayer(Player player) {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(Ghostcore.id);
-        assert plugin != null;
+    public static void invisPlayer(Player player) {
+        PotionEffect invis = new PotionEffect(PotionEffectType.INVISIBILITY, 9999, 255, true, false);
 
-        for(Player otherPlayer : Bukkit.getOnlinePlayers()) {
-            otherPlayer.hidePlayer(plugin, player);
-        }
+        player.addPotionEffect(invis);
     }
 
-    public static void totallyShowPlayer(Player player) {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(Ghostcore.id);
-        assert plugin != null;
+    public static void joinTeam(Player player, String teamName) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join " + teamName + " " + player.getName());
+    }
 
-        for(Player otherPlayer : Bukkit.getOnlinePlayers()) {
-            otherPlayer.showPlayer(plugin, player);
-        }
+    public static void leaveTeam(Player player) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team leave " + player.getName());
     }
 
     public static void setGhost(OfflinePlayer player, boolean setGhost, boolean teleport, boolean setConfig) {
@@ -97,11 +95,19 @@ public final class Ghostcore extends JavaPlugin {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warp " + warpName + " " + player.getName());
             }
 
-            // Showing/Hiding Player
+            // Hiding Player
             if(setGhost) {
-                totallyHidePlayer(onlinePlayer);
+                Ghostcore.joinTeam(onlinePlayer, plugin.getConfig().getString("ghosts_team"));
+
+                invisPlayer(onlinePlayer);
+
+                onlinePlayer.setAllowFlight(true); // Not working
             } else {
-                totallyShowPlayer(onlinePlayer);
+                onlinePlayer.removePotionEffect(PotionEffectType.INVISIBILITY);
+
+                Ghostcore.leaveTeam(onlinePlayer);
+
+                onlinePlayer.setAllowFlight(false); // Might be working
             }
         }
     }

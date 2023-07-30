@@ -79,9 +79,15 @@ public class Events implements Listener {
         Player player = e.getPlayer();
 
         if(player.getGameMode() != GameMode.CREATIVE) {
-            Ghostcore.setGhost(player, true, true, true);
+            // Running on a tick delay to give the server a chance to realize what's happening
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    Ghostcore.setGhost(player, true, true, true);
 
-            player.sendMessage("You are now a ghost.");
+                    player.sendMessage("You are now a ghost.");
+                }
+            }, 5);
         }
     }
 
