@@ -2,18 +2,20 @@ package me.squid;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Events implements Listener {
 
@@ -78,6 +80,38 @@ public class Events implements Listener {
 
         if(player.getGameMode() != GameMode.CREATIVE) {
             Ghostcore.setGhost(player, true, true, true);
+
+            player.sendMessage("You are now a ghost.");
+        }
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+        Action action = e.getAction();
+
+        String UUID = player.getUniqueId().toString();
+
+        ItemStack holding = e.getItem();
+        String itemName = "";
+
+        JsonObject playerData;
+
+        try {
+            playerData = Ghostcore.ghostsFile.getPlayer(UUID);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        if(holding != null) {
+            itemName = Objects.requireNonNull(holding.getItemMeta()).getDisplayName();
+        }
+
+        // Right click event
+        if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
+            if(holding != null) {
+                // Stuff
+            }
         }
     }
 
