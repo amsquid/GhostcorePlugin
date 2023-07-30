@@ -87,7 +87,7 @@ public class Events implements Listener {
 
                     player.sendMessage("You are now a ghost.");
                 }
-            }, 5);
+            }, 1);
         }
     }
 
