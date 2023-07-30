@@ -67,22 +67,24 @@ public final class Ghostcore extends JavaPlugin {
         assert plugin != null;
 
         // Setting value in JSON file
-        JsonObject ghostsFileData = ghostsFile.getJson();
-        JsonObject playerObject = null;
+        if(setConfig) {
+            JsonObject ghostsFileData = ghostsFile.getJson();
+            JsonObject playerObject = null;
 
-        try {
-            playerObject = ghostsFile.getPlayer(UUID);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+            try {
+                playerObject = ghostsFile.getPlayer(UUID);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
 
-        playerObject.addProperty("isGhost", setGhost);
-        ghostsFileData.add(UUID, playerObject);
+            playerObject.addProperty("isGhost", setGhost);
+            ghostsFileData.add(UUID, playerObject);
 
-        try {
-            ghostsFile.overwriteFile(ghostsFileData.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            try {
+                ghostsFile.overwriteFile(ghostsFileData.toString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         if(player.isOnline()) {
