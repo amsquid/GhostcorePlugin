@@ -7,3 +7,6 @@ commands:
   resetplayer:
     usage: /resetplayer <player name>
     permission: admin
+
+  overworldtp:
+    usage: /overworldtp
