@@ -45,7 +45,7 @@ public final class Ghostcore extends JavaPlugin {
 
     // Utility Methods
     public static void invisPlayer(Player player) {
-        PotionEffect invis = new PotionEffect(PotionEffectType.INVISIBILITY, 9999, 255, true, false);
+        PotionEffect invis = new PotionEffect(PotionEffectType.INVISIBILITY, PotionEffect.INFINITE_DURATION, 255, true, false);
 
         player.addPotionEffect(invis);
     }
