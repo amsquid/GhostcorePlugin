@@ -2,6 +2,7 @@ package me.squid;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import me.squid.commands.OverworldTP;
 import me.squid.commands.ResetPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -30,6 +31,7 @@ public final class Ghostcore extends JavaPlugin {
 
         // Registering Commands
         getCommand("resetplayer").setExecutor(new ResetPlayer());
+        getCommand("overworldtp").setExecutor(new OverworldTP());
 
         // Registering Events
         getServer().getPluginManager().registerEvents(new Events(), this);
