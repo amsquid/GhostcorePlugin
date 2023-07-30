@@ -32,9 +32,14 @@ public class Events implements Listener {
         String UUID = player.getUniqueId().toString();
 
         // Resetting player on join
-        /*if(!player.hasPlayedBefore()) {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "resetplayer " + e.getPlayer());
-        }*/
+        if(!player.hasPlayedBefore()) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "resetplayer " + player.getName());
+                }
+            }, 1);
+        }
 
         // Getting JSON data
         GhostsFile ghostsFile = Ghostcore.ghostsFile;
