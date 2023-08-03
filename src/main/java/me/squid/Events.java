@@ -1,13 +1,13 @@
 package me.squid;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -69,9 +69,7 @@ public class Events implements Listener {
                 throw new RuntimeException(ex);
             }
         } else {
-            JsonElement isGhost = playerObject.get("isGhost");
-
-            if(isGhost.getAsBoolean()) {
+            if(ghostsFile.playerIsGhost(player)) {
                 player.sendMessage("You are a ghost");
             } else {
                 player.sendMessage("You are not a ghost");
@@ -122,6 +120,21 @@ public class Events implements Listener {
         if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             if(holding != null) {
                 // Stuff
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+        Entity entity = e.getEntity();
+
+        if(entity instanceof Player) {
+            Player player = (Player) entity;
+
+            GhostsFile ghostsFile = Ghostcore.ghostsFile;
+
+            if(ghostsFile.playerIsGhost(player)) {
+                e.setCancelled(true);
             }
         }
     }
