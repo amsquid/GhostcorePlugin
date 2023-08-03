@@ -2,6 +2,7 @@ package me.squid;
 
 import com.google.gson.*;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -90,5 +91,23 @@ public class GhostsFile extends File {
         writer.write(data);
 
         writer.close();
+    }
+
+    public boolean playerIsGhost(Player player) {
+        String UUID = player.getUniqueId().toString();
+
+        // Getting JSON data
+        GhostsFile ghostsFile = Ghostcore.ghostsFile;
+        JsonObject playerObject = null;
+
+        try {
+            playerObject = ghostsFile.getPlayer(UUID);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        assert playerObject != null;
+
+        return playerObject.get("isGhost").getAsBoolean();
     }
 }
