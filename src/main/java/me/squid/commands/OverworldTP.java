@@ -16,18 +16,10 @@ public class OverworldTP implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        String UUID = String.valueOf(player.getUniqueId());
 
         GhostsFile ghostsFile = Ghostcore.ghostsFile;
-        JsonObject playerData;
 
-        try {
-            playerData = ghostsFile.getPlayer(UUID);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        if(playerData.get("isGhost").getAsBoolean()) {
+        if(ghostsFile.playerIsGhost(player)) {
             // Teleporting the player to the holding area
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mvtp " + player.getName() + " world");
         }
